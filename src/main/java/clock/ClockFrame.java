@@ -44,6 +44,8 @@ public abstract class ClockFrame extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         int[] hourMinSec = (int[])arg;
         clockPanel.displayTime(hourMinSec[0],hourMinSec[1],hourMinSec[2]);
+        clockPanel.repaint();
+
     }
 
     private class DetachOnClosingWindowListener implements WindowListener {

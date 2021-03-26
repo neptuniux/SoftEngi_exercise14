@@ -34,14 +34,13 @@ public class ClockTimer extends Observable implements Runnable {
 	 * @uml.property name="analogClock"
 	 * @uml.associationEnd multiplicity="(1 1)"
 	 */
-	AnalogClock analogClock;
+
 
 	
     /**
      * Creates a new instance of <code>ClockTimer</code>.
      */
     public ClockTimer() {
-		// TODO Remove the analog clock argument from the constructor, once the observer pattern is used.
         calendar = new GregorianCalendar();
     }
 
@@ -81,6 +80,7 @@ public class ClockTimer extends Observable implements Runnable {
                 hourMinuteSecond[1]=getMinute();
                 hourMinuteSecond[2]=getSecond();
                 notifyObservers(hourMinuteSecond);
+                //notifyObservers();
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
             	loggingService.severe("Timer got interrupted");

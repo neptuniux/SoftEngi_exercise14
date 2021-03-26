@@ -1,18 +1,19 @@
-package clock.analog2;
+package clock.digital;
 
 import clock.ClockPanel;
 
 import java.awt.*;
 
 
-public class AnalogClock2Panel extends ClockPanel {
+public class DigitalClockPanel extends ClockPanel {
     int hour;
     int minute;
     int second;
 
-    private Color shcolor = Color.red;
+    private Color shcolor = Color.ORANGE;
     private Color mhcolor = Color.white;
     private Color bgcolor = Color.DARK_GRAY;
+    private Color numberColor = new Color(100,100 ,100 );
     private Font font = new Font("TimesRoman", Font.PLAIN, 20);
 
     //number position
@@ -30,7 +31,7 @@ public class AnalogClock2Panel extends ClockPanel {
 
         g.setFont(font.deriveFont(Font.BOLD));
 
-        drawNumbers(g);
+        drawNumbers(g,width,height);
         drawMinute(g);
         drawHour(g);
         drawSecond(g);
@@ -178,11 +179,9 @@ public class AnalogClock2Panel extends ClockPanel {
 
                 }
 
-
-
     }
 
-    private void drawNumbers(Graphics g){
+    private void drawNumbers(Graphics g,int width,int height){
         int s =0;
         int space=0;
         for (int j = 0; j < 12; j++) {
@@ -194,14 +193,14 @@ public class AnalogClock2Panel extends ClockPanel {
                 } else if(s>=45 && s<=59 && space==20){
                     space+=10;
                 }
-                positions[s][0]=25*j+60+space;
-                positions[s][1]=20*i+50;
+                positions[s][0]=width/2+25*j+space-170;
+                positions[s][1]=height/2+20*i-40;
                 s++;
 
             }
         }
         for (int i = 0; i < positions.length; i++) {
-            colorPosition(g,i,Color.GRAY);
+            colorPosition(g,i,numberColor);
         }
         g.setColor(mhcolor);
         g.drawLine((positions[25][0]+positions[35][0])/2-2,positions[25][1],(positions[25][0]+positions[35][0])/2-2,positions[29][1]-5);
