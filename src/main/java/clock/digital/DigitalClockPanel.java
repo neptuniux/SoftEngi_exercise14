@@ -5,23 +5,40 @@ import clock.ClockPanel;
 import java.awt.*;
 
 
+/**
+ * @author Daniel Borcard Daniel.Borcard@unifr.ch
+ * @version 1.0
+ */
 public class DigitalClockPanel extends ClockPanel {
+
+    // the hours to be displayed
     int hour;
+    // the minutes to be displayed
     int minute;
+    // the seconds to be displayed
     int second;
 
+    // The color for the seconds
     private Color shcolor = Color.ORANGE;
+    // The color for the minutes and hours
     private Color mhcolor = Color.white;
+    // The color of the background
     private Color bgcolor = Color.DARK_GRAY;
+    // The color of the numbers when disabled
     private Color numberColor = new Color(100,100 ,100 );
-    private Font font = new Font("TimesRoman", Font.PLAIN, 20);
+    // The font of the numbers
+    private Font font = new Font("TimesRoman", Font.BOLD, 20);
 
-    //number position
+    //Position of the numbers
     private int[][] positions = new int[60][2];
 
 
+    /**
+     * The main method to paint the custom clock panel
+     * @param g The graphic component to be changed
+     */
     protected void paintComponent(Graphics g) {
-        // Some geometric calculations.
+        // used for some calculations.
         int width = getWidth();
         int height = getHeight();
 
@@ -29,8 +46,10 @@ public class DigitalClockPanel extends ClockPanel {
         g.setColor(bgcolor);
         g.fillRect(0, 0, width, height);
 
-        g.setFont(font.deriveFont(Font.BOLD));
+        //Set the font of the numbers
+        g.setFont(font);
 
+        //Draw the differents components
         drawNumbers(g,width,height);
         drawMinute(g);
         drawHour(g);
@@ -39,6 +58,12 @@ public class DigitalClockPanel extends ClockPanel {
     }
 
 
+    /**
+     * Color the number form 0 to 59.
+     * @param g The graphic component to be changed
+     * @param index The number of type int to be changed beween 0 and 59
+     * @param color The color, of type Color, of the number
+     */
     private void colorPosition(Graphics g, int index, Color color){
         g.setColor(color);
         if (index<10){
@@ -48,7 +73,13 @@ public class DigitalClockPanel extends ClockPanel {
         }
     }
 
+    /**
+     * @param g The graphic component to be changed
+     * @param bigPos The index of the big number from 1 (for the 10's of the hour) to 4 (for the seconds)
+     * @param number The number from 0 to 9 of type int to be displayed.
+     */
     private void colorBigNumber(Graphics g, int bigPos,int number){
+        //here each individual number that must be painted is set  manually this can be further improved to display letters
                 switch (number){
                     case 0:
                         colorPosition(g,(bigPos-1)*15,mhcolor);
@@ -181,11 +212,20 @@ public class DigitalClockPanel extends ClockPanel {
 
     }
 
+    /**
+     * @param g The graphic component to be changed
+     * @param width The width of the windows, used to set the clock in the center
+     * @param height The height of the windows, used to set the clock in the center
+     */
     private void drawNumbers(Graphics g,int width,int height){
+        // s is the current number to be processed
         int s =0;
+        //the space is used to add a space between the big parts for a better readability
         int space=0;
+        //12 columns and 5 rows
         for (int j = 0; j < 12; j++) {
             for (int i = 0; i < 5; i++) {
+                //add spaces between the big numbers
                 if (s>=15 && s<=29 && space==0){
                     space+=10;
                 }else if (s>=30 && s<=44 && space==10){
@@ -193,15 +233,20 @@ public class DigitalClockPanel extends ClockPanel {
                 } else if(s>=45 && s<=59 && space==20){
                     space+=10;
                 }
+                //Some values are set manually
                 positions[s][0]=width/2+25*j+space-170;
                 positions[s][1]=height/2+20*i-40;
                 s++;
 
             }
         }
+
+        //color each small numbers
         for (int i = 0; i < positions.length; i++) {
             colorPosition(g,i,numberColor);
         }
+
+        //add a small line between the hours and the minutes
         g.setColor(mhcolor);
         g.drawLine((positions[25][0]+positions[35][0])/2-2,positions[25][1],(positions[25][0]+positions[35][0])/2-2,positions[29][1]-5);
 
